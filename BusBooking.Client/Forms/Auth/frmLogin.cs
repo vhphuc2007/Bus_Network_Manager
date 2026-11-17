@@ -260,7 +260,8 @@ public class frmLogin : Form
             Font = AppTheme.BodyFont,
             ForeColor = Color.White,
             BackColor = Color.Transparent,
-            AutoSize = true,
+            AutoSize = false,
+            Size = new Size(320, 36),
             Location = new Point(34, y)
         };
     }
