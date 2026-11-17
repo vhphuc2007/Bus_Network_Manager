@@ -76,6 +76,7 @@ public class frmTicketDetail : Form
                 Font = AppTheme.CaptionFont,
                 ForeColor = AppTheme.TextMuted,
                 BackColor = AppTheme.CardSurface,
+                UseMnemonic = false,
                 AutoSize = true,
                 Location = new Point(26, y)
             };
@@ -85,6 +86,7 @@ public class frmTicketDetail : Form
                 Font = AppTheme.BodyBoldFont,
                 ForeColor = valueColor ?? AppTheme.TextPrimary,
                 BackColor = AppTheme.CardSurface,
+                UseMnemonic = false,
                 Location = new Point(26, y + 18),
                 Size = new Size(305, 22)
             };

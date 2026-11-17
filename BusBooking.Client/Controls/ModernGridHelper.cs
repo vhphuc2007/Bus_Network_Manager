@@ -106,7 +106,7 @@ public static class ModernGridHelper
             AppTheme.CaptionBoldFont,
             pillRect,
             foreColor,
-            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
+            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
 
         e.Handled = true;
     }

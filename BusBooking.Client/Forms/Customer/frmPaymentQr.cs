@@ -176,6 +176,7 @@ public class frmPaymentQR : Form
             Font = AppTheme.CaptionFont,
             ForeColor = AppTheme.TextMuted,
             BackColor = AppTheme.CardSurface,
+            UseMnemonic = false,
             Location = new Point(24, 456),
             Size = new Size(432, 36),
             TextAlign = ContentAlignment.MiddleCenter
@@ -206,9 +207,10 @@ public class frmPaymentQR : Form
         };
         _btnCheckStatus.Click += async (_, _) => await CheckPaymentStatusAsync(silent: false);
 
+#if DEBUG
         _btnSimulatePaid = new ModernButton
         {
-            Text = "Giả lập MoMo thanh toán thành công (Local Demo)",
+            Text = "Giả lập MoMo thanh toán thành công (Debug/Demo)",
             Icon = IconChar.CheckCircle,
             FillColor = AppTheme.Accent,
             HoverColor = AppTheme.AccentHover,
@@ -223,6 +225,16 @@ public class frmPaymentQR : Form
             qrFrame, _lblHint,
             btnOpenBrowser, _btnCheckStatus, _btnSimulatePaid
         });
+#else
+        _btnSimulatePaid = new ModernButton { Visible = false };
+
+        card.Controls.AddRange(new Control[]
+        {
+            momoHeader, ticketSummary, lblAmount, _statusBadge,
+            qrFrame, _lblHint,
+            btnOpenBrowser, _btnCheckStatus
+        });
+#endif
 
         Controls.Add(card);
 

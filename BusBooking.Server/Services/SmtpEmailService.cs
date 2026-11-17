@@ -33,7 +33,8 @@ public class SmtpEmailService : IEmailService
             Mã có hiệu lực trong vòng 5 phút (300 giây). Vui lòng không chia sẻ mã này cho bất kỳ ai.
 
             Trân trọng,
-            Hệ thống Đặt vé xe trực tuyến - BusBooking (NT106.R12 - Nhóm 07)
+            Ban Quản trị Hệ thống Đặt vé xe BusBooking
+            Hotline CSKH: 1900 6868
             """;
 
         _logger.LogInformation("Chuẩn bị gửi OTP mục đích {Purpose} tới {Email}", purpose, toEmail);

@@ -146,7 +146,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "BusBooking API - NT106.R12 (Nhóm 07)",
+        Title = "BusBooking API - Hệ thống Đặt vé xe trực tuyến",
         Version = "v1",
         Description = "ASP.NET Core Web API (.NET 8) cho hệ thống đặt vé xe trực tuyến"
     });
@@ -189,9 +189,9 @@ app.UseAuthorization();
 
 app.MapGet("/", () => Results.Ok(ApiResponse.Ok(new
 {
-    system = "Ứng dụng Đặt vé xe trực tuyến (BusBooking)",
-    course = "NT106.R12 - Lập trình mạng căn bản",
-    team = "Nhóm 07 - UIT",
+    system = "Hệ thống Đặt vé xe trực tuyến (BusBooking)",
+    version = "1.0.0",
+    status = "Online",
     signalRHub = "/hubs/support",
     healthCheck = "/api/health"
 }, "BusBooking Server đang hoạt động")));

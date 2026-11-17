@@ -161,6 +161,7 @@ public class frmMainCustomer : Form
             Font = AppTheme.TitleFont,
             ForeColor = AppTheme.TextPrimary,
             BackColor = AppTheme.CardSurface,
+            UseMnemonic = false,
             AutoSize = true,
             Location = new Point(24, 15)
         };

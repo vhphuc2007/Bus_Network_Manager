@@ -43,11 +43,17 @@ public class PaymentsController : ControllerBase
         };
     }
 
-    // Endpoint hỗ trợ giả lập thanh toán MoMo thành công để test local khi chưa có public IP cho Webhook
+    // Endpoint hỗ trợ giả lập thanh toán MoMo thành công để test local khi chưa có public IP cho Webhook (Chỉ mở trong môi trường Development)
     [HttpPost("momo/simulate/{ticketId:int}")]
     [Authorize(Roles = UserRoles.Customer)]
-    public async Task<IActionResult> SimulateMomoPaymentSuccess(int ticketId, CancellationToken ct)
+    public async Task<IActionResult> SimulateMomoPaymentSuccess(
+        int ticketId,
+        [FromServices] IWebHostEnvironment env,
+        CancellationToken ct)
     {
+        if (!env.IsDevelopment())
+            return NotFound(ApiResponse.Fail("Chức năng giả lập chỉ hỗ trợ trong môi trường kiểm thử (Development)"));
+
         if (!User.TryGetUserId(out int userId))
             return Unauthorized(ApiResponse.Fail("Token thiếu hoặc không hợp lệ"));
 

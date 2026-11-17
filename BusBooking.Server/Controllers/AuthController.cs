@@ -11,6 +11,7 @@ using BusBooking.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace BusBooking.Server.Controllers;
 
@@ -19,6 +20,8 @@ namespace BusBooking.Server.Controllers;
 public class AuthController : ControllerBase
 {
     private const int OtpExpirySeconds = 300;
+    private const int OtpCooldownSeconds = 60;
+    private const int MaxOtpFailedAttempts = 5;
     private const int TempTokenExpiryMinutes = 10;
     private const int MinPasswordLength = 6;
     private static readonly EmailAddressAttribute EmailValidator = new();
@@ -27,17 +30,20 @@ public class AuthController : ControllerBase
     private readonly IEmailService _emailService;
     private readonly ITokenService _tokenService;
     private readonly ITokenRevocationService _revocationService;
+    private readonly IMemoryCache _cache;
 
     public AuthController(
         BusBookingDbContext db,
         IEmailService emailService,
         ITokenService tokenService,
-        ITokenRevocationService revocationService)
+        ITokenRevocationService revocationService,
+        IMemoryCache cache)
     {
         _db = db;
         _emailService = emailService;
         _tokenService = tokenService;
         _revocationService = revocationService;
+        _cache = cache;
     }
 
     // 1. POST /api/auth/login
@@ -251,6 +257,14 @@ public class AuthController : ControllerBase
 
     private async Task<IActionResult> IssueOtpAsync(string email, string purpose, CancellationToken ct)
     {
+        string cooldownKey = $"otp_cooldown_{email}_{purpose}";
+        if (_cache.TryGetValue(cooldownKey, out DateTime nextAllowedUtc))
+        {
+            int remaining = Math.Max(1, (int)(nextAllowedUtc - DateTime.UtcNow).TotalSeconds);
+            return StatusCode(StatusCodes.Status429TooManyRequests,
+                ApiResponse.Fail($"Vui lòng đợi {remaining} giây trước khi yêu cầu gửi lại mã OTP mới"));
+        }
+
         string code = RandomNumberGenerator.GetInt32(100000, 1000000).ToString();
 
         bool sent = await _emailService.SendOtpEmailAsync(email, code, purpose, ct);
@@ -284,6 +298,10 @@ public class AuthController : ControllerBase
         _db.OtpCodes.Add(otp);
         await _db.SaveChangesAsync(ct);
 
+        // Đặt cooldown 60s và reset số lần nhập sai
+        _cache.Remove($"otp_fail_{email}_{purpose}");
+        _cache.Set(cooldownKey, DateTime.UtcNow.AddSeconds(OtpCooldownSeconds), TimeSpan.FromSeconds(OtpCooldownSeconds));
+
         var data = new RequestCodeResponseData
         {
             Email = email,
@@ -301,14 +319,40 @@ public class AuthController : ControllerBase
         string email = NormalizeEmail(request.Email);
         string code = request.Code.Trim();
 
+        string failKey = $"otp_fail_{email}_{purpose}";
+        int failCount = _cache.GetOrCreate(failKey, entry =>
+        {
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(OtpExpirySeconds);
+            return 0;
+        });
+
         var otp = await _db.OtpCodes
             .Where(o => o.Email == email && o.Purpose == purpose && !o.IsUsed && !o.IsVerified)
             .OrderByDescending(o => o.CreatedAt)
             .ThenByDescending(o => o.Id)
             .FirstOrDefaultAsync(ct);
 
-        if (otp == null || otp.Code != code || DateTime.Now > otp.ExpiresAt)
+        if (otp == null || DateTime.Now > otp.ExpiresAt)
             return BadRequest(ApiResponse.Fail("Mã xác thực không đúng hoặc đã hết hạn"));
+
+        if (otp.Code != code)
+        {
+            failCount++;
+            if (failCount >= MaxOtpFailedAttempts)
+            {
+                otp.IsUsed = true; // Hủy mã OTP luôn vì nhập sai quá giới hạn
+                await _db.SaveChangesAsync(ct);
+                _cache.Remove(failKey);
+                return BadRequest(ApiResponse.Fail("Bạn đã nhập sai mã xác thực quá 5 lần. Mã OTP đã bị vô hiệu hóa, vui lòng xin mã mới."));
+            }
+
+            _cache.Set(failKey, failCount, TimeSpan.FromSeconds(OtpExpirySeconds));
+            int remaining = MaxOtpFailedAttempts - failCount;
+            return BadRequest(ApiResponse.Fail($"Mã xác thực không đúng. Bạn còn {remaining} lần thử"));
+        }
+
+        // Nhập đúng -> xóa cache đếm lỗi
+        _cache.Remove(failKey);
 
         string tempToken = Guid.NewGuid().ToString("N");
         otp.TempToken = tempToken;

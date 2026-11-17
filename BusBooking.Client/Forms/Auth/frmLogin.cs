@@ -71,17 +71,25 @@ public class frmLogin : Form
             Font = AppTheme.BodyFont,
             ForeColor = Color.FromArgb(203, 213, 225),
             BackColor = Color.Transparent,
+            UseMnemonic = false,
             Location = new Point(34, 114),
-            Size = new Size(320, 46)
+            Size = new Size(330, 48)
         };
 
-        var lblBullet1 = CreateHeroFeature("• Tìm chuyến trực quan, chọn giường theo tầng", 180);
-        var lblBullet2 = CreateHeroFeature("• Thanh toán MoMo QR & nhận hóa đơn tức thì", 214);
-        var lblBullet3 = CreateHeroFeature("• Chat hỗ trợ khách hàng realtime qua SignalR", 248);
+        var lblBullet1 = CreateHeroFeature("• Tìm chuyến trực quan, chọn giường theo tầng", 176);
+        var lblBullet2 = CreateHeroFeature("• Thanh toán MoMo QR & nhận hóa đơn tức thì", 228);
+        var lblBullet3 = CreateHeroFeature("• Chat hỗ trợ khách hàng realtime qua SignalR", 280);
 
+        pnlHero.Controls.AddRange(new Control[]
+        {
+            logoWrap, lblBrand, lblTag,
+            lblBullet1, lblBullet2, lblBullet3
+        });
+
+#if DEBUG
         var lblQuickDemo = new Label
         {
-            Text = "ĐIỀN NHANH TÀI KHOẢN MẪU (NT106 DEMO)",
+            Text = "ĐIỀN NHANH TÀI KHOẢN MẪU (DEBUG)",
             Font = new Font("Segoe UI Semibold", 8.5f),
             ForeColor = Color.FromArgb(148, 163, 184),
             BackColor = Color.Transparent,
@@ -101,12 +109,8 @@ public class frmLogin : Form
         pnlDemoButtons.Controls.Add(CreateDemoPill("Staff", "staff@nhaxe.vn"));
         pnlDemoButtons.Controls.Add(CreateDemoPill("Support", "support@nhaxe.vn"));
 
-        pnlHero.Controls.AddRange(new Control[]
-        {
-            logoWrap, lblBrand, lblTag,
-            lblBullet1, lblBullet2, lblBullet3,
-            lblQuickDemo, pnlDemoButtons
-        });
+        pnlHero.Controls.AddRange(new Control[] { lblQuickDemo, pnlDemoButtons });
+#endif
 
         // Cột phải: Card đăng nhập trắng bo góc 12px
         var pnlRight = new DoubleBufferedPanel
@@ -172,6 +176,7 @@ public class frmLogin : Form
             }
         };
 
+#if DEBUG
         var lblServer = UiHelper.CreateFieldLabel("SERVER API URL", 34, 260);
         _txtServerUrl = new ModernTextBox
         {
@@ -246,6 +251,78 @@ public class frmLogin : Form
             _lblError, _btnLogin,
             lnkForgot, btnRegister
         });
+#else
+        _txtServerUrl = new ModernTextBox
+        {
+            Text = ApiClient.BaseUrl,
+            Visible = false
+        };
+
+        _lblError = new Label
+        {
+            Text = string.Empty,
+            Font = AppTheme.CaptionBoldFont,
+            ForeColor = AppTheme.DangerFg,
+            BackColor = AppTheme.CardSurface,
+            Location = new Point(34, 268),
+            Size = new Size(392, 24),
+            Visible = false
+        };
+
+        _btnLogin = new ModernButton
+        {
+            Text = "Đăng nhập",
+            Icon = IconChar.Key,
+            FillColor = AppTheme.Primary,
+            HoverColor = AppTheme.PrimaryHover,
+            Location = new Point(34, 300),
+            Size = new Size(392, 46)
+        };
+        _btnLogin.Click += async (_, _) => await HandleLoginAsync();
+
+        var lnkForgot = new LinkLabel
+        {
+            Text = "Quên mật khẩu?",
+            Font = AppTheme.CaptionBoldFont,
+            LinkColor = AppTheme.Primary,
+            ActiveLinkColor = AppTheme.PrimaryHover,
+            BackColor = AppTheme.CardSurface,
+            AutoSize = true,
+            Location = new Point(34, 362)
+        };
+        lnkForgot.Click += (_, _) =>
+        {
+            using var frm = new frmForgotPassword();
+            frm.ShowDialog(this);
+        };
+
+        var btnRegister = new ModernButton
+        {
+            Text = "Tạo tài khoản mới",
+            Icon = IconChar.UserPlus,
+            FillColor = AppTheme.AccentSoft,
+            HoverColor = Color.FromArgb(255, 237, 213),
+            ForeColor = AppTheme.AccentHover,
+            BorderColor = AppTheme.Accent,
+            BorderWidth = 1,
+            Location = new Point(236, 354),
+            Size = new Size(190, 38)
+        };
+        btnRegister.Click += (_, _) =>
+        {
+            using var frm = new frmRegister();
+            frm.ShowDialog(this);
+        };
+
+        card.Controls.AddRange(new Control[]
+        {
+            lblTitle, lblSub,
+            lblEmail, _txtEmail,
+            lblPass, _txtPassword,
+            _lblError, _btnLogin,
+            lnkForgot, btnRegister
+        });
+#endif
 
         pnlRight.Controls.Add(card);
         Controls.Add(pnlRight);
@@ -260,8 +337,9 @@ public class frmLogin : Form
             Font = AppTheme.BodyFont,
             ForeColor = Color.White,
             BackColor = Color.Transparent,
+            UseMnemonic = false,
             AutoSize = false,
-            Size = new Size(320, 36),
+            Size = new Size(330, 46),
             Location = new Point(34, y)
         };
     }

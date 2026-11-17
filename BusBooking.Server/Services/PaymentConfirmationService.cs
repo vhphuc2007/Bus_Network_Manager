@@ -146,8 +146,11 @@ public class PaymentConfirmationService : IPaymentConfirmationService
                     - Tổng tiền: {ticket.TotalAmount:N0} VNĐ
                     - Mã giao dịch MoMo: {ipn.TransId}
 
-                    Chúc Quý khách có chuyến đi an toàn và thoải mái!
-                    BusBooking System - Nhóm 07 (NT106.R12)
+                    Chúc Quý khách có một chuyến đi an toàn và thoải mái!
+
+                    Trân trọng,
+                    Hệ thống Đặt vé xe trực tuyến BusBooking
+                    Hotline CSKH: 1900 6868
                     """;
 
                 bool emailSent = await _emailService.SendEmailAsync(ticket.PassengerEmail, subject, body, isHtml: false, ct);

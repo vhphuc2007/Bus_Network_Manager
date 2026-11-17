@@ -189,6 +189,7 @@ public class frmSeatSelection : Form
             Font = AppTheme.CardTitleFont,
             ForeColor = AppTheme.TextPrimary,
             BackColor = AppTheme.CardSurface,
+            UseMnemonic = false,
             AutoSize = true,
             Location = new Point(20, 18)
         };

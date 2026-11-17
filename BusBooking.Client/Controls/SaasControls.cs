@@ -287,7 +287,7 @@ public class ModernButton : Button
             _cachedIconBitmap = _icon.Value.ToBitmap(textColor, _iconSize);
         }
 
-        var textSize = TextRenderer.MeasureText(pevent.Graphics, Text, Font, Size.Empty, TextFormatFlags.NoPadding);
+        var textSize = TextRenderer.MeasureText(pevent.Graphics, Text, Font, Size.Empty, TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
         int gap = (_cachedIconBitmap != null && !string.IsNullOrEmpty(Text)) ? 7 : 0;
         int totalWidth = (_cachedIconBitmap?.Width ?? 0) + gap + textSize.Width;
 
@@ -312,7 +312,7 @@ public class ModernButton : Button
             Font,
             textRect,
             textColor,
-            TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.EndEllipsis);
+            TextFormatFlags.VerticalCenter | TextFormatFlags.Left | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPrefix);
 
         if (_badgeCount > 0)
         {
@@ -529,7 +529,7 @@ public class BadgeLabel : Control
             Font,
             rect,
             ForeColor,
-            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoPadding);
+            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.NoPadding | TextFormatFlags.NoPrefix);
     }
 }
 
@@ -576,6 +576,7 @@ public class KpiCard : RoundedCardPanel
             Font = AppTheme.CaptionBoldFont,
             ForeColor = AppTheme.TextMuted,
             BackColor = AppTheme.CardSurface,
+            UseMnemonic = false,
             AutoSize = true,
             Location = new Point(18, 14)
         };
@@ -586,6 +587,7 @@ public class KpiCard : RoundedCardPanel
             Font = new Font("Segoe UI", 16f, FontStyle.Bold),
             ForeColor = AppTheme.TextPrimary,
             BackColor = AppTheme.CardSurface,
+            UseMnemonic = false,
             AutoSize = false,
             AutoEllipsis = true,
             Size = new Size(185, 34),
@@ -598,6 +600,7 @@ public class KpiCard : RoundedCardPanel
             Font = AppTheme.CaptionFont,
             ForeColor = AppTheme.TextMuted,
             BackColor = AppTheme.CardSurface,
+            UseMnemonic = false,
             AutoSize = false,
             AutoEllipsis = true,
             Size = new Size(210, 22),

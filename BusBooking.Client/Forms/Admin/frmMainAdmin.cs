@@ -81,6 +81,7 @@ public class frmMainAdmin : Form
             Font = new Font("Segoe UI Semibold", 8f),
             ForeColor = AppTheme.SidebarMuted,
             BackColor = AppTheme.SidebarBg,
+            UseMnemonic = false,
             AutoSize = true,
             Location = new Point(50, 36)
         });
@@ -162,6 +163,7 @@ public class frmMainAdmin : Form
             Font = AppTheme.TitleFont,
             ForeColor = AppTheme.TextPrimary,
             BackColor = AppTheme.CardSurface,
+            UseMnemonic = false,
             AutoSize = true,
             Location = new Point(24, 15)
         };

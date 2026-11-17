@@ -13,6 +13,7 @@ public static class UiHelper
             Font = AppTheme.CaptionBoldFont,
             ForeColor = AppTheme.TextSecondary,
             BackColor = backColor ?? AppTheme.CardSurface,
+            UseMnemonic = false,
             AutoSize = true,
             Location = new Point(x, y)
         };
