@@ -45,6 +45,7 @@ public class frmPaymentQR : Form
         Font = AppTheme.BodyFont;
         Padding = new Padding(22);
         DoubleBuffered = true;
+        FormRoundingHelper.Apply(this, 14);
 
         var card = new RoundedCardPanel
         {

@@ -42,6 +42,7 @@ public class formDatVeMoi : Form
         Font = AppTheme.BodyFont;
         Padding = new Padding(18);
         DoubleBuffered = true;
+        FormRoundingHelper.Apply(this, 14);
 
         var rightCard = new RoundedCardPanel
         {

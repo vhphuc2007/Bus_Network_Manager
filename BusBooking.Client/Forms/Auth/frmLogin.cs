@@ -27,6 +27,7 @@ public class frmLogin : Form
         BackColor = AppTheme.CanvasBg;
         Font = AppTheme.BodyFont;
         DoubleBuffered = true;
+        FormRoundingHelper.Apply(this, 16);
 
         // Cột trái: Brand Hero Gradient (#0B4F6C -> #1D4ED8)
         var pnlHero = new GradientHeroPanel
@@ -38,52 +39,53 @@ public class frmLogin : Form
 
         var logoWrap = new RoundedCardPanel
         {
-            Size = new Size(56, 56),
+            Size = new Size(54, 54),
             CornerRadius = 14,
-            SurfaceColor = Color.FromArgb(30, 64, 175),
-            BorderThickness = 0,
+            SurfaceColor = Color.FromArgb(49, 46, 129),
+            BorderColor = Color.FromArgb(99, 102, 241),
+            BorderThickness = 1,
             Location = new Point(34, 42),
-            Padding = new Padding(0)
+            Padding = new Padding(6)
         };
         logoWrap.Controls.Add(new IconPictureBox
         {
             Dock = DockStyle.Fill,
             IconChar = IconChar.Bus,
-            IconSize = 26,
-            IconColor = AppTheme.Accent,
-            BackColor = Color.FromArgb(30, 64, 175),
+            IconSize = 25,
+            IconColor = Color.FromArgb(199, 210, 254),
+            BackColor = Color.Transparent,
             SizeMode = PictureBoxSizeMode.CenterImage
         });
 
         var lblBrand = new Label
         {
             Text = "BusBooking",
-            Font = new Font("Segoe UI", 24f, FontStyle.Bold),
+            Font = new Font("Segoe UI", 22f, FontStyle.Bold),
             ForeColor = Color.White,
             BackColor = Color.Transparent,
             AutoSize = true,
-            Location = new Point(104, 46)
+            Location = new Point(100, 46)
         };
 
         var lblTag = new Label
         {
-            Text = "Nền tảng đặt vé xe khách & điều hành trực tuyến",
+            Text = "Nền tảng đặt vé xe khách & điều hành thông minh",
             Font = AppTheme.BodyFont,
-            ForeColor = Color.FromArgb(203, 213, 225),
+            ForeColor = Color.FromArgb(199, 210, 254),
             BackColor = Color.Transparent,
             UseMnemonic = false,
             Location = new Point(34, 114),
-            Size = new Size(330, 48)
+            Size = new Size(330, 46)
         };
 
-        var lblBullet1 = CreateHeroFeature("• Tìm chuyến trực quan, chọn giường theo tầng", 176);
-        var lblBullet2 = CreateHeroFeature("• Thanh toán MoMo QR & nhận hóa đơn tức thì", 228);
-        var lblBullet3 = CreateHeroFeature("• Chat hỗ trợ khách hàng realtime qua SignalR", 280);
+        var feature1 = CreateHeroFeatureCard(IconChar.MapMarkedAlt, "Đặt vé & Chọn ghế trực quan", "Sơ đồ 2 tầng chuẩn xác theo thời gian thực", 176);
+        var feature2 = CreateHeroFeatureCard(IconChar.Qrcode, "Thanh toán MoMo tự động", "Quét mã QR tức thì & nhận hóa đơn bảo mật", 244);
+        var feature3 = CreateHeroFeatureCard(IconChar.Headset, "Hỗ trợ khách hàng 24/7", "Kênh chat trực tiếp qua công nghệ SignalR", 312);
 
         pnlHero.Controls.AddRange(new Control[]
         {
             logoWrap, lblBrand, lblTag,
-            lblBullet1, lblBullet2, lblBullet3
+            feature1, feature2, feature3
         });
 
 #if DEBUG
@@ -94,12 +96,12 @@ public class frmLogin : Form
             ForeColor = Color.FromArgb(148, 163, 184),
             BackColor = Color.Transparent,
             AutoSize = true,
-            Location = new Point(34, 392)
+            Location = new Point(34, 396)
         };
 
         var pnlDemoButtons = new FlowLayoutPanel
         {
-            Location = new Point(32, 418),
+            Location = new Point(32, 420),
             Size = new Size(330, 96),
             BackColor = Color.Transparent,
             Margin = new Padding(0)
@@ -329,19 +331,60 @@ public class frmLogin : Form
         Controls.Add(pnlHero);
     }
 
-    private Label CreateHeroFeature(string text, int y)
+    private Panel CreateHeroFeatureCard(IconChar icon, string title, string description, int y)
     {
-        return new Label
+        var panel = new DoubleBufferedPanel
         {
-            Text = text,
-            Font = AppTheme.BodyFont,
+            Location = new Point(34, y),
+            Size = new Size(330, 56),
+            BackColor = Color.Transparent
+        };
+
+        var iconWrap = new RoundedCardPanel
+        {
+            Size = new Size(38, 38),
+            CornerRadius = 10,
+            SurfaceColor = Color.FromArgb(49, 46, 129),
+            BorderColor = Color.FromArgb(99, 102, 241),
+            BorderThickness = 1,
+            Location = new Point(0, 4),
+            Padding = new Padding(5)
+        };
+        iconWrap.Controls.Add(new IconPictureBox
+        {
+            Dock = DockStyle.Fill,
+            IconChar = icon,
+            IconSize = 17,
+            IconColor = Color.FromArgb(199, 210, 254),
+            BackColor = Color.Transparent,
+            SizeMode = PictureBoxSizeMode.CenterImage
+        });
+
+        var lblT = new Label
+        {
+            Text = title,
+            Font = AppTheme.BodyBoldFont,
             ForeColor = Color.White,
             BackColor = Color.Transparent,
             UseMnemonic = false,
-            AutoSize = false,
-            Size = new Size(330, 46),
-            Location = new Point(34, y)
+            Location = new Point(48, 4),
+            AutoSize = true
         };
+
+        var lblD = new Label
+        {
+            Text = description,
+            Font = AppTheme.CaptionFont,
+            ForeColor = Color.FromArgb(199, 210, 254),
+            BackColor = Color.Transparent,
+            UseMnemonic = false,
+            Location = new Point(48, 26),
+            Size = new Size(278, 22),
+            AutoEllipsis = true
+        };
+
+        panel.Controls.AddRange(new Control[] { iconWrap, lblT, lblD });
+        return panel;
     }
 
     private ModernButton CreateDemoPill(string label, string email)
@@ -349,12 +392,15 @@ public class frmLogin : Form
         var btn = new ModernButton
         {
             Text = label,
-            FillColor = Color.FromArgb(30, 58, 138),
-            HoverColor = Color.FromArgb(37, 99, 235),
+            FillColor = Color.FromArgb(30, 27, 75),
+            HoverColor = Color.FromArgb(67, 56, 202),
             CornerRadius = 8,
-            Size = new Size(148, 34),
+            Size = new Size(155, 34),
             Margin = new Padding(0, 0, 10, 8),
-            Font = AppTheme.CaptionBoldFont
+            Font = AppTheme.CaptionBoldFont,
+            ForeColor = Color.FromArgb(224, 231, 255),
+            BorderWidth = 1,
+            BorderColor = Color.FromArgb(79, 70, 229)
         };
         btn.Click += (_, _) =>
         {
@@ -417,10 +463,24 @@ public class frmLogin : Form
         {
             using var brush = new LinearGradientBrush(
                 ClientRectangle,
-                AppTheme.PrimaryDark,
-                AppTheme.Primary,
+                Color.FromArgb(11, 15, 25),    // Obsidian Slate 950
+                Color.FromArgb(30, 27, 75),    // Indigo 950
                 LinearGradientMode.ForwardDiagonal);
             e.Graphics.FillRectangle(brush, ClientRectangle);
+
+            // Subtle decorative radial glow in top right
+            using var path = new GraphicsPath();
+            path.AddEllipse(Width - 140, -40, 240, 240);
+            using var pgb = new PathGradientBrush(path)
+            {
+                CenterColor = Color.FromArgb(40, 99, 102, 241),
+                SurroundColors = new[] { Color.Transparent }
+            };
+            e.Graphics.FillPath(pgb, path);
+
+            // Subtle vertical border separator on right edge
+            using var pen = new Pen(Color.FromArgb(30, 41, 59));
+            e.Graphics.DrawLine(pen, Width - 1, 0, Width - 1, Height);
         }
     }
 }

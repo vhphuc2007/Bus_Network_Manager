@@ -119,7 +119,7 @@ public class formTongQuan : Form
             Icon = IconChar.SyncAlt,
             IconSize = 13,
             FillColor = AppTheme.PrimarySoft,
-            HoverColor = Color.FromArgb(219, 234, 254),
+            HoverColor = Color.FromArgb(224, 231, 255),
             ForeColor = AppTheme.Primary,
             Size = new Size(110, 34),
             Anchor = AnchorStyles.Top | AnchorStyles.Right,

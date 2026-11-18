@@ -29,6 +29,7 @@ public class frmRegister : Form
         Font = AppTheme.BodyFont;
         Padding = new Padding(24);
         DoubleBuffered = true;
+        FormRoundingHelper.Apply(this, 14);
 
         var card = new RoundedCardPanel
         {

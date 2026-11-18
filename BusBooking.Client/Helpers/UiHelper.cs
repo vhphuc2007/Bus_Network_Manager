@@ -64,4 +64,25 @@ public static class UiHelper
 
     public static void ShowInfo(string message, IWin32Window? owner = null)
         => MessageBox.Show(owner, message, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+    /// <summary>
+    /// Tìm màu nền thực tế của container cha (bỏ qua Transparent) để khử triệt để viền vuông/góc đen cho các control bo tròn.
+    /// </summary>
+    public static Color GetEffectiveBackColor(Control? control)
+    {
+        Control? current = control;
+        while (current != null)
+        {
+            if (current is RoundedCardPanel card && card.SurfaceColor != Color.Transparent && card.SurfaceColor.A == 255)
+            {
+                return card.SurfaceColor;
+            }
+            if (current.BackColor != Color.Transparent && current.BackColor.A == 255)
+            {
+                return current.BackColor;
+            }
+            current = current.Parent;
+        }
+        return AppTheme.CanvasBg;
+    }
 }

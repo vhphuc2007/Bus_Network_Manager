@@ -5,16 +5,16 @@ namespace BusBooking.Client.Theme;
 
 public static class AppTheme
 {
-    // Bảng màu SaaS & E-commerce hiện đại
-    public static readonly Color CanvasBg = ColorTranslator.FromHtml("#F1F5F9");
+    // Bảng màu SaaS & Clean Tech hiện đại (Phong cách Stripe / Linear)
+    public static readonly Color CanvasBg = ColorTranslator.FromHtml("#F8FAFC");
     public static readonly Color CardSurface = ColorTranslator.FromHtml("#FFFFFF");
     public static readonly Color CardBorder = ColorTranslator.FromHtml("#E2E8F0");
-    public static readonly Color SubtleBg = ColorTranslator.FromHtml("#F8FAFC");
+    public static readonly Color SubtleBg = ColorTranslator.FromHtml("#F1F5F9");
 
-    public static readonly Color Primary = ColorTranslator.FromHtml("#1D4ED8");
-    public static readonly Color PrimaryDark = ColorTranslator.FromHtml("#0B4F6C");
-    public static readonly Color PrimaryHover = ColorTranslator.FromHtml("#1E40AF");
-    public static readonly Color PrimarySoft = ColorTranslator.FromHtml("#EFF6FF");
+    public static readonly Color Primary = ColorTranslator.FromHtml("#4F46E5");
+    public static readonly Color PrimaryDark = ColorTranslator.FromHtml("#3730A3");
+    public static readonly Color PrimaryHover = ColorTranslator.FromHtml("#4338CA");
+    public static readonly Color PrimarySoft = ColorTranslator.FromHtml("#EEF2FF");
 
     public static readonly Color Accent = ColorTranslator.FromHtml("#F97316");
     public static readonly Color AccentHover = ColorTranslator.FromHtml("#EA580C");
@@ -22,39 +22,40 @@ public static class AppTheme
 
     public static readonly Color MomoBrand = ColorTranslator.FromHtml("#A50064");
 
-    public static readonly Color SidebarBg = ColorTranslator.FromHtml("#0F172A");
+    public static readonly Color SidebarBg = ColorTranslator.FromHtml("#0B0F19");
     public static readonly Color SidebarHover = ColorTranslator.FromHtml("#1E293B");
-    public static readonly Color SidebarActive = ColorTranslator.FromHtml("#1D4ED8");
+    public static readonly Color SidebarActive = ColorTranslator.FromHtml("#4F46E5");
     public static readonly Color SidebarMuted = ColorTranslator.FromHtml("#94A3B8");
 
     public static readonly Color TextPrimary = ColorTranslator.FromHtml("#0F172A");
     public static readonly Color TextSecondary = ColorTranslator.FromHtml("#334155");
     public static readonly Color TextMuted = ColorTranslator.FromHtml("#64748B");
 
-    public static readonly Color SuccessBg = ColorTranslator.FromHtml("#DCFCE7");
-    public static readonly Color SuccessFg = ColorTranslator.FromHtml("#15803D");
+    public static readonly Color SuccessBg = ColorTranslator.FromHtml("#ECFDF5");
+    public static readonly Color SuccessFg = ColorTranslator.FromHtml("#059669");
 
-    public static readonly Color WarningBg = ColorTranslator.FromHtml("#FEF3C7");
-    public static readonly Color WarningFg = ColorTranslator.FromHtml("#B45309");
+    public static readonly Color WarningBg = ColorTranslator.FromHtml("#FFFBEB");
+    public static readonly Color WarningFg = ColorTranslator.FromHtml("#D97706");
 
-    public static readonly Color DangerBg = ColorTranslator.FromHtml("#FEE2E2");
-    public static readonly Color DangerFg = ColorTranslator.FromHtml("#B91C1C");
+    public static readonly Color DangerBg = ColorTranslator.FromHtml("#FEF2F2");
+    public static readonly Color DangerFg = ColorTranslator.FromHtml("#DC2626");
 
-    public static readonly Color InfoBg = ColorTranslator.FromHtml("#DBEAFE");
-    public static readonly Color InfoFg = ColorTranslator.FromHtml("#1D4ED8");
+    public static readonly Color InfoBg = ColorTranslator.FromHtml("#EEF2FF");
+    public static readonly Color InfoFg = ColorTranslator.FromHtml("#4F46E5");
 
-    public static readonly Color NeutralBg = ColorTranslator.FromHtml("#E2E8F0");
+    public static readonly Color NeutralBg = ColorTranslator.FromHtml("#F1F5F9");
     public static readonly Color NeutralFg = ColorTranslator.FromHtml("#475569");
 
-    // Hệ thống Typography Segoe UI rõ cấp bậc
-    public static readonly Font TitleFont = new("Segoe UI", 18f, FontStyle.Bold);
-    public static readonly Font SectionFont = new("Segoe UI", 14f, FontStyle.Bold);
-    public static readonly Font CardTitleFont = new("Segoe UI Semibold", 12f, FontStyle.Regular);
+    // Hệ thống Typography Segoe UI rõ cấp bậc & chuẩn phân cấp hiển thị
+    public static readonly Font DisplayFont = new("Segoe UI", 20f, FontStyle.Bold);
+    public static readonly Font TitleFont = new("Segoe UI", 16f, FontStyle.Bold);
+    public static readonly Font SectionFont = new("Segoe UI", 13.5f, FontStyle.Bold);
+    public static readonly Font CardTitleFont = new("Segoe UI Semibold", 11.5f, FontStyle.Regular);
     public static readonly Font PriceFont = new("Segoe UI", 15f, FontStyle.Bold);
-    public static readonly Font BodyFont = new("Segoe UI", 10f, FontStyle.Regular);
-    public static readonly Font BodyBoldFont = new("Segoe UI Semibold", 10f, FontStyle.Regular);
-    public static readonly Font CaptionFont = new("Segoe UI", 9f, FontStyle.Regular);
-    public static readonly Font CaptionBoldFont = new("Segoe UI Semibold", 9f, FontStyle.Regular);
+    public static readonly Font BodyFont = new("Segoe UI", 9.75f, FontStyle.Regular);
+    public static readonly Font BodyBoldFont = new("Segoe UI Semibold", 9.75f, FontStyle.Regular);
+    public static readonly Font CaptionFont = new("Segoe UI", 8.75f, FontStyle.Regular);
+    public static readonly Font CaptionBoldFont = new("Segoe UI Semibold", 8.5f, FontStyle.Regular);
 
     public const int CardRadius = 12;
 

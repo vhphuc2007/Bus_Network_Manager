@@ -1,4 +1,5 @@
 using System.Drawing.Drawing2D;
+using BusBooking.Client.Helpers;
 using BusBooking.Client.Theme;
 using BusBooking.Shared.DTOs;
 using BusBooking.Shared.Enums;
@@ -85,9 +86,49 @@ public class SeatButton : Control
         base.OnMouseLeave(e);
     }
 
+    protected override void OnSizeChanged(EventArgs e)
+    {
+        base.OnSizeChanged(e);
+        UpdateRegion();
+    }
+
+    public void UpdateRegion()
+    {
+        if (Width <= 0 || Height <= 0) return;
+        var rect = new Rectangle(0, 0, Width, Height);
+        using var path = AppTheme.CreateRoundedRect(rect, 10);
+        Region?.Dispose();
+        Region = new Region(path);
+    }
+
+    protected override void OnPaintBackground(PaintEventArgs pevent)
+    {
+        // Suppress default background rendering
+    }
+
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        Invalidate();
+    }
+
+    protected override void OnParentBackColorChanged(EventArgs e)
+    {
+        base.OnParentBackColorChanged(e);
+        Invalidate();
+    }
+
     protected override void OnPaint(PaintEventArgs e)
     {
         e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+
+        // 1. Tô sạch 4 góc vuông bằng màu nền thực tế của container cha để bo tròn không bị đen hay lộ viền vuông
+        Color parentBg = UiHelper.GetEffectiveBackColor(Parent);
+        using (var parentBrush = new SolidBrush(parentBg))
+        {
+            e.Graphics.FillRectangle(parentBrush, ClientRectangle);
+        }
+
         var rect = new Rectangle(1, 1, Math.Max(1, Width - 3), Math.Max(1, Height - 3));
         using var path = AppTheme.CreateRoundedRect(rect, 10);
 

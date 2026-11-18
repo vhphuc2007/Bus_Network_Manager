@@ -37,6 +37,7 @@ public class frmTripEditor : Form
         Font = AppTheme.BodyFont;
         Padding = new Padding(20);
         DoubleBuffered = true;
+        FormRoundingHelper.Apply(this, 14);
 
         var card = new RoundedCardPanel
         {

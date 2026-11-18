@@ -34,6 +34,7 @@ public class frmMainCustomer : Form
         BackColor = AppTheme.CanvasBg;
         Font = AppTheme.BodyFont;
         DoubleBuffered = true;
+        FormRoundingHelper.Apply(this, 14);
 
         // 1. Left Navigation Sidebar (#0F172A)
         var pnlSidebar = new DoubleBufferedPanel
@@ -50,16 +51,26 @@ public class frmMainCustomer : Form
             Height = 64,
             BackColor = AppTheme.SidebarBg
         };
-        brandPanel.Controls.Add(new IconPictureBox
+        var brandIconWrap = new RoundedCardPanel
         {
-            IconChar = IconChar.Bus,
-            IconSize = 24,
-            IconColor = AppTheme.Accent,
-            BackColor = AppTheme.SidebarBg,
+            Size = new Size(36, 36),
+            CornerRadius = 10,
+            SurfaceColor = Color.FromArgb(49, 46, 129),
+            BorderColor = Color.FromArgb(99, 102, 241),
+            BorderThickness = 1,
             Location = new Point(6, 10),
-            Size = new Size(34, 34),
+            Padding = new Padding(6)
+        };
+        brandIconWrap.Controls.Add(new IconPictureBox
+        {
+            Dock = DockStyle.Fill,
+            IconChar = IconChar.Bus,
+            IconSize = 18,
+            IconColor = Color.FromArgb(199, 210, 254),
+            BackColor = Color.Transparent,
             SizeMode = PictureBoxSizeMode.CenterImage
         });
+        brandPanel.Controls.Add(brandIconWrap);
         brandPanel.Controls.Add(new Label
         {
             Text = "BusBooking",
